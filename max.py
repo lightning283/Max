@@ -125,7 +125,7 @@ def mainfunc():
                 shutdown_voice = voice.listen(source)
                 shutdown_text = voice.recognize_google(shutdown_voice)
                 if "yes" in shutdown_text:
-                    playsound("voices/shutting_down.mp3")
+                    playsound("voices/shutnow.mp3")
                     os.system("systemctl shutdown now")
                 else:
                     playsound("voices/shutdown_cancel.mp3")
