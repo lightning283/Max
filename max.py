@@ -1,138 +1,96 @@
-#!/usr/bin/python
-from random import random
 import time
-from playsound import playsound
-import speech_recognition as sr
 import os
-import random
-voice= sr.Recognizer()
-greet  = ['voices/greeting.mp3' , 'voices/g2.mp3']
-var = random.choice(greet)
-playsound(var)
-print("here")
-os.system("clear")
-def mainfunc():
+import speech_recognition as sr
+from random import random
+from datetime import datetime
+from resources import *
+greet()
+def voicerecmain():
     try:
-        with sr.Microphone() as source:
-            os.system("clear")
-            def greet():
-                os.system("pyfiglet -f slant Main Menu")
-                print("Listening...")
-                print("Say 'Help' if you dont know how to operate.")
-            greet()
-            audio = voice.listen(source , phrase_time_limit=4)
-            text = voice.recognize_google(audio)
-            print(f"--> {text}")
-            if "application" in text:
-                os.system("clear")
-                randd = ['voices/oksir.mp3' , 'voices/onit.mp3', 'voices/surething.mp3' ]
-                vareee = random.choice(randd)
-                playsound(vareee)
-                playsound("voices/options.mp3")
-                print("""
-1.Brave
-2.VisualStudioCode
-3.Spotify
-4.Stremio
-5.Discord
-6.Konsole
-7.Teams
-                """)
-                try:
-                    audio_app = voice.listen(source ,  phrase_time_limit=4)
-                    text_app = voice.recognize_google(audio_app)
-                    print(f"-->{text_app}")
-                except sr.UnknownValueError: 
-                    playsound("voices/missedit.mp3")
-                    audio_app = voice.listen(source ,  phrase_time_limit=4)
-                    text_app = voice.recognize_google(audio_app)
-                    print(f"-->{text_app}")
-                def apps():
-                    if "rave" in text_app:
-                        playsound('voices/surething.mp3')
-                        os.system("cd apps && gtk-launch brave.desktop")
-                        os.system("clear")
-                        def somethingelse():
-                            playsound('voices/somethingelse.mp3')
-                            smthelse  = voice.listen(source , phrase_time_limit=4)
-                            txt = voice.recognize_google(smthelse)
-                            print(f"-->{txt}")
-                            if "yes" in txt:
-                                playsound("voices/affirmative.mp3")
-                                mainfunc()
-                            else:
-                                playsound("voices/shutdown.mp3")
-                                exit()
-                        somethingelse()
-                    elif "iscord" in text_app:
-                        playsound('voices/surething.mp3')
-                        os.system("cd apps && gtk-launch discord.desktop")
-                        os.system("clear")
-                        playsound('voices/somethingelse.mp3')
-                        smthelse  = voice.listen(source , phrase_time_limit=4)
-                        txt = voice.recognize_google(smthelse)
-                        print(f"-->{txt}")
-                        if "yes" in txt:
-                            playsound("voices/affirmative.mp3")
-                            playsound("voices/what_you_again.mp3")
-                            print("say 'yes'")
-                            mainfunc()
-                        else:
-                            playsound("voices/shutdown.mp3")
-                            exit()
-                    else:
-                        print("Im Sorry I Didnt Catch That Please Try Again")
-                        input("would you like to run the ai again?")
-                        os.system("python max.py")
-                apps()
-            if "kill" in text:
-                playsound("voices/which_app_terminate.mp3")
-                print("USAGE: Say Terminate + 'TheNameOfTheApp'")
-                print("EXAMPLE: kill brave")
-                audio_close = voice.listen(source ,  phrase_time_limit=4)
-                text_close = voice.recognize_google(audio_close)
-                print(f"-->{text_close}")
-                edited1 = text_close.lower().split("kill" , 1)[1]
-                os.system(f"pkill{edited1}")
-                playsound('voices/somethingelse.mp3')
-                smthelse  = voice.listen(source , phrase_time_limit=4)
-                txt = voice.recognize_google(smthelse)
-                print(f"-->{txt}")
-                if "yes" in txt:
-                    playsound("voices/affirmative.mp3")
-                    playsound("voices/what_you_want_again.mp3")
-                    mainfunc()
+        os.system("pyfiglet -f slant Main Menu")
+        voicerec()
+        def somethingelse():
+            playsound('voices/somethingelse.mp3')
+            print("listening..")
+            print("say 'yes'")
+            voicerec()
+            if "yes" in voicerec.text:
+                greet()
+                voicerecmain()
+            else:
+                playsound("voices/shutdown.mp3")
+                exit()
+#########################################################################################
+        if "open discord" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch discord.desktop")
+            somethingelse()
+        elif "open telegram" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch telegram.desktop")
+            somethingelse()
+        elif "open stremio" in voicerec.text:
+            playsound('voices/surething.mp3')
+            if not os.path.isfile("/opt/stremio/stremio"):
+                playsound("voices/install_pkg.mp3")
+                voicerec()
+                if "yes" in voicerec.text:
+                    playsound("voices/installing_now.mp3")
+                    os.system("yay -S aur/stremio")
                 else:
-                    playsound("voices/shutdown.mp3")
-                    exit()
-            if "help" in text:
-                os.system("pyfiglet -f slant Features")
-                playsound("voices/what_you_again.mp3")
-                playsound("voices/features.mp3")
-                print("""
-1.Open Applications. [keyword:[application]]
-2.Search In Brower.  [keyword:[search + what to search ]] eg -> max google search search 'how to cook eggs'
-3.Time Or date.      [keyword:[time][date]] eg -> max whats the time or max whats the date today?
-4.Check Net Speed.   [keyword:[netspeed]] eg-> max whats my net speed.
-5.Help(display this) [keyword:[help]]
-6.Kill(Terminate A Application) [keyword[kill + name of app]] eg-> max kill (then it will ask name) , kill brave
-7.ShutDown [keyword[shutdown pc]] eg-> max shutdown pc
-                """)
-                done = input("Done Reading? Press Enter!!")
-                mainfunc()
-            if "shutdow" in text:
-                playsound("voices/are_you_sure.mp3")
-                shutdown_voice = voice.listen(source)
-                shutdown_text = voice.recognize_google(shutdown_voice)
-                if "yes" in shutdown_text:
-                    playsound("voices/shutnow.mp3")
-                    os.system("systemctl shutdown now")
-                else:
-                    playsound("voices/shutdown_cancel.mp3")
+                    missedit()
+                    voicerecmain()
+            else:
+                os.system("cd apps && gtk-launch stremio.desktop")
+                somethingelse()
+        elif "open brave" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch brave.desktop")
+            somethingelse()
+        elif "open vscode" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch vscode.desktop")
+            somethingelse()
+        elif "open spotify" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch spotify.desktop")
+            somethingelse()
+        elif "open konsole" in voicerec.text:
+            playsound('voices/surething.mp3')
+            os.system("cd apps && gtk-launch konsole.desktop")
+            somethingelse()
+        elif voicerec.text == "list features":
+            clearterm()
+            voicesvar("voices/features.mp3")
+            os.system("cat assets/features.md")
+            done_reading = input("\n\n\nDone Reading? Press Enter")
+            somethingelse()
+        elif "install" in voicerec.text:
+            packageinstall()
+        elif "list runnable applications" in voicerec.text:
+            voicesvar("voices/options.mp3")
+            appliacations()
+            done_reading = input("\n\n\nDone Reading? Press Enter")
+            somethingelse()
+        elif "time" in voicerec.text:
+            now = datetime.now()
+            time = now.strftime('%I:%M:%S')
+            from gtts import gTTS
+            tts = gTTS("Now The Time Is" + time)
+            tts.save('time.mp3')
+            voicesvar("time.mp3")
+        elif "date" in voicerec.text:
+            now = datetime.now()
+            date = now.strftime('%Y/%m/%d')
+            from gtts import gTTS
+            tts = gTTS("Today's Date Is" + date)
+            tts.save('date.mp3')
+            voicesvar("date.mp3")
+        else:
+            srry = input("Sorry I Didnt Catch You There Press Enter To Re-run Script")
+            voicerecmain()
+#########################################################################################
     except sr.UnknownValueError:
-        os.system("clear")
-        playsound("voices/missedit.mp3")
-        mainfunc()
-
-mainfunc()
-os.system("clear")
+        missedit()
+        tryagain()
+voicerecmain()
