@@ -3,6 +3,11 @@ import os, webbrowser
 from assets.resources import *
 from datetime import datetime
 from time import sleep
+from neuralintents import GenericAssistant
+
+bot = GenericAssistant('intents.json')
+bot.train_model()
+bot.save_model()
 
 def main():
     # greet()
@@ -45,7 +50,7 @@ def main():
         voiceok()
         os.system("bash config.sh")
 
-    elif ("google") or ("google" and "search") in voicerec.text:
+    elif "google" in voicerec.text or "google" and "search" in voicerec.text:
         playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
         voicerec()
         content = voicerec.text
@@ -53,16 +58,23 @@ def main():
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
 
-    elif ("youtube") or ("youtube" and "search") in voicerec.text:
+    elif "youtube" in voicerec.text or "youtube" and "search" in voicerec.text:
         playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
         voicerec()
         content = voicerec.text
         url_g = f"https://www.youtube.com/results?search_query={content}"
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
-    elif ("shutdown" or "poweroff") or ("shut" and "down") or ("power" and "off") in voicerec.text or "poweroff" in voicerec.text:
-        playsound(f"{voice_dir}/poweroff.mp3")
-        sleep(10)
-        os.system("poweroff")
+
+    # elif ("shutdown" or "poweroff") or ("shut" and "down") or ("power" and "off") in voicerec.text:
+    #     playsound(f"{voice_dir}/poweroff.mp3")
+    #     sleep(10)
+    #     os.system("poweroff")
+    else:
+        response = bot.request(voicerec.text)
+        print(response)
+        audio = "voices/" + response
+        playsound(audio)
+        
 while True:
     main()

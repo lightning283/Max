@@ -56,18 +56,6 @@ def voiceok():
     voices = [f"{voice_dir}/on_it.mp3" , f"{voice_dir/ok.mp3}"]
     choice = random.choice(voices)
     playsound(choice)
-
-
-############################# Word Lists ###############################################
-google_search = [
-    'google search',
-    'google'
-]
-youtube_search = [
-    'youtube search',
-    'youtube',
-]
-########################################################################################
 ############################# Reply Lists ##############################################
 def greet():
     greeting = [

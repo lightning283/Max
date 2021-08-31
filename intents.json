@@ -1,0 +1,27 @@
+{"intents": [
+  {"tag":"greetings",
+    "patterns": ["hi", "hello", "hey" , "yo"] , 
+    "responses": ["hellosir.mp3" , "howcanihelpu.mp3" , "whatcaniassistuwith.mp3" , "howwasurday.mp3"]
+  },  
+  {"tag":"work",
+    "patterns": ["what u doing", "sup", "what are you doing" , "watcha doing"] , 
+    "responses": ["listeningtou.mp3" , "attendingtorequest.mp3" , "Workingwithcpu.mp3"]
+  }, 
+  {"tag":"faq",
+    "patterns": ["who made u" , "how were u built" , "who are you" , "are you real"], 
+    "responses": ["howiwasbuilt.mp3"]
+  },
+  {"tag":"thanks",
+    "patterns": ["thanks" , "thankyou" , "thank you" , "thank u"], 
+    "responses": ["verywelcome.mp3" , "notaproblem.mp3"]
+  },
+  {"tag":"spy?",
+    "patterns": ["are you here to spy" , "spying"], 
+    "responses": ["hopefullynot.mp3"]
+  },
+  {"tag":"from",
+    "patterns": ["where u from" , "where are you from"], 
+    "responses": ["whereami.mp3"]
+  }
+]
+}
