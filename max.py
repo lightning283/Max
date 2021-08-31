@@ -1,96 +1,68 @@
-import time
-import os
-import speech_recognition as sr
-from random import random
+#!/usr/bin/env python3
+import os, webbrowser
+from assets.resources import *
 from datetime import datetime
-from resources import *
-greet()
-def voicerecmain():
+from time import sleep
+
+def main():
+    # greet()
     try:
-        os.system("pyfiglet -f slant Main Menu")
         voicerec()
-        def somethingelse():
-            playsound('voices/somethingelse.mp3')
-            print("listening..")
-            print("say 'yes'")
-            voicerec()
-            if "yes" in voicerec.text:
-                greet()
-                voicerecmain()
-            else:
-                playsound("voices/shutdown.mp3")
-                exit()
-#########################################################################################
-        if "open discord" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch discord.desktop")
-            somethingelse()
-        elif "open telegram" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch telegram.desktop")
-            somethingelse()
-        elif "open stremio" in voicerec.text:
-            playsound('voices/surething.mp3')
-            if not os.path.isfile("/opt/stremio/stremio"):
-                playsound("voices/install_pkg.mp3")
-                voicerec()
-                if "yes" in voicerec.text:
-                    playsound("voices/installing_now.mp3")
-                    os.system("yay -S aur/stremio")
-                else:
-                    missedit()
-                    voicerecmain()
-            else:
-                os.system("cd apps && gtk-launch stremio.desktop")
-                somethingelse()
-        elif "open brave" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch brave.desktop")
-            somethingelse()
-        elif "open vscode" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch vscode.desktop")
-            somethingelse()
-        elif "open spotify" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch spotify.desktop")
-            somethingelse()
-        elif "open konsole" in voicerec.text:
-            playsound('voices/surething.mp3')
-            os.system("cd apps && gtk-launch konsole.desktop")
-            somethingelse()
-        elif voicerec.text == "list features":
-            clearterm()
-            voicesvar("voices/features.mp3")
-            os.system("cat assets/features.md")
-            done_reading = input("\n\n\nDone Reading? Press Enter")
-            somethingelse()
-        elif "install" in voicerec.text:
-            packageinstall()
-        elif "list runnable applications" in voicerec.text:
-            voicesvar("voices/options.mp3")
-            appliacations()
-            done_reading = input("\n\n\nDone Reading? Press Enter")
-            somethingelse()
-        elif "time" in voicerec.text:
-            now = datetime.now()
-            time = now.strftime('%I:%M:%S')
-            from gtts import gTTS
-            tts = gTTS("Now The Time Is" + time)
-            tts.save('time.mp3')
-            voicesvar("time.mp3")
-        elif "date" in voicerec.text:
-            now = datetime.now()
-            date = now.strftime('%Y/%m/%d')
-            from gtts import gTTS
-            tts = gTTS("Today's Date Is" + date)
-            tts.save('date.mp3')
-            voicesvar("date.mp3")
-        else:
-            srry = input("Sorry I Didnt Catch You There Press Enter To Re-run Script")
-            voicerecmain()
-#########################################################################################
     except sr.UnknownValueError:
-        missedit()
-        tryagain()
-voicerecmain()
+        main()
+    if "open" in voicerec.text:
+        voiceok()
+        file_name = wfilter("open")
+        os.chdir(f"{homedir}/apps/")
+        os.system(f"gtk-launch {file_name}.desktop")
+    elif ("install" and "package") in voicerec.text:
+        voiceok()
+        packageinstall()
+    elif "time" in voicerec.text:
+        now = datetime.now()
+        time = now.strftime('%I:%M:%S')
+        from gtts import gTTS
+        tts = gTTS("Now The Time Is" + time)
+        tts.save(f'{voice_dir}/time.mp3')
+        playsound(f"{voice_dir}/time.mp3")
+    elif "date" in voicerec.text:
+        now = datetime.now()
+        date = now.strftime('%Y/%m/%d')
+        from gtts import gTTS
+        tts = gTTS("Today's Date Is" + date)
+        tts.save(f'{voice_dir}/date.mp3')
+        playsound(f"{voice_dir}/date.mp3")
+    elif "launch task" in voicerec.text:
+        voiceok()
+        os.chdir("tasks/")
+        if os.path.isfile("*.sh"):
+            wfilter("task")
+            os.system("bash {wfilter.edited_word}.sh")
+        else:
+            playsound(f"{voice_dir}/no_tasks_detected.mp3")
+            os.system("bash config.sh")
+    elif "add task" in voicerec.text:
+        voiceok()
+        os.system("bash config.sh")
+
+    elif ("google") or ("google" and "search") in voicerec.text:
+        playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
+        voicerec()
+        content = voicerec.text
+        url_g = f"https://www.google.com/search?q={content}"
+        webbrowser.open_new_tab(url_g)
+        playsound(f"{voice_dir}/results.mp3")
+
+    elif ("youtube") or ("youtube" and "search") in voicerec.text:
+        playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
+        voicerec()
+        content = voicerec.text
+        url_g = f"https://www.youtube.com/results?search_query={content}"
+        webbrowser.open_new_tab(url_g)
+        playsound(f"{voice_dir}/results.mp3")
+    elif ("shutdown" or "poweroff") or ("shut" and "down") or ("power" and "off") in voicerec.text or "poweroff" in voicerec.text:
+        playsound(f"{voice_dir}/poweroff.mp3")
+        sleep(10)
+        os.system("poweroff")
+while True:
+    main()

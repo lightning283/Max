@@ -1,3 +1,2 @@
 #!/bin/bash
-
-cp -r max ~/.config/
+cp apps/* ~/.local/share/applications/

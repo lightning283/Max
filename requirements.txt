@@ -1,0 +1,4 @@
+gtts
+playsound
+speechrecognition
+tk

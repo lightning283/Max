@@ -1,5 +1,0 @@
-#!/bin/python
-cat assets/apps.md
-echo ""
-echo ""
-read -n 1 -s -r -p "Press any key to continue"
