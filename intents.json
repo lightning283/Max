@@ -22,6 +22,14 @@
   {"tag":"from",
     "patterns": ["where u from" , "where are you from"], 
     "responses": ["whereami.mp3"]
+  },
+  {"tag":"gf?bf?",
+    "patterns": ["why cant i get a girl" , "why cant i get a girlfriend" , "why cant i get a gf" , "why cant i get a bf" , "boyfriend"], 
+    "responses": ["justajoke.mp3"] 
+  },
+  {"tag":"sad?",
+    "patterns": ["i am sad" , "sad" , "saddest"], 
+    "responses": ["dontbesad.mp3" , "dontbesad2.mp3"] 
   }
 ]
 }

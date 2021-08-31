@@ -66,4 +66,13 @@ def greet():
     ]
     greeting = random.choice(greeting)
     playsound(greeting)
+
+def voiceok():
+    ok = [
+        f'{voice_dir}/onit.mp3',
+        f'{voice_dir}/surething.mp3',
+        f'{voice_dir}/ok.mp3',
+    ]
+    ok = random.choice(ok)
+    playsound(ok)
 ########################################################################################

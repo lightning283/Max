@@ -66,15 +66,18 @@ def main():
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
 
-    # elif ("shutdown" or "poweroff") or ("shut" and "down") or ("power" and "off") in voicerec.text:
-    #     playsound(f"{voice_dir}/poweroff.mp3")
-    #     sleep(10)
-    #     os.system("poweroff")
+    elif "shutdown" in voicerec.text or "poweroff" in voicerec.text or "shut" and "down" in voicerec.text or "power" and "off" in voicerec.text:
+        playsound(f"{voice_dir}/poweroff.mp3")
+        sleep(10)
+        os.system("poweroff")
     else:
         response = bot.request(voicerec.text)
         print(response)
         audio = "voices/" + response
         playsound(audio)
-        
+        if "dontbesad" in response:
+            webbrowser.open_new_tab("https://www.producthunt.com") # les go hunting
+        elif "dontbesad2" in response:
+            webbrowser.open_new_tab("https://www.youtube.com/results?search_query=funny+memes") #the best i got lol
 while True:
     main()
