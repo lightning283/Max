@@ -12,4 +12,5 @@ Downside is that this has more working features on linux rather than windows..
 - Show Desktop Or Show Desktop for some seconds.
 - Normal Shortcuts Associated with the left WINKEY.
 - Search on Google and Youtube
+- Start a http server
 ##### Some Features Are Still Underdevelopment But Will Be Finished Soon.

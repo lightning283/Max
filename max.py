@@ -70,14 +70,17 @@ def main():
         playsound(f"{voice_dir}/poweroff.mp3")
         sleep(10)
         os.system("poweroff")
+    elif "server" and "start":
+        playsound(f"{voice_dir}/server.mp3")
+        os.system(f"python {base_dir}/assets/server.py")
     else:
         response = bot.request(voicerec.text)
         print(response)
         audio = "voices/" + response
         playsound(audio)
-        if "dontbesad" in response:
+        if response == "dontbesad.mp3":
             webbrowser.open_new_tab("https://www.producthunt.com") # les go hunting
-        elif "dontbesad2" in response:
+        elif response == "dontbesad2.mp3" :
             webbrowser.open_new_tab("https://www.youtube.com/results?search_query=funny+memes") #the best i got lol
 while True:
     main()

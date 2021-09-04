@@ -1,14 +1,12 @@
 from playsound import playsound
 import speech_recognition as sr
-import os
-import random
-import getpass
+import os ,random , getpass
 user_name = getpass.getuser()
 DEBUG = True
 if DEBUG:
-    homedir = ""
+    base_dir = os.getcwd()
 else:
-    homedir = f"/home/{user_name}/Documents/max/"
+    base_dir = "/home/{user_name}/.config/Max/"
 voice_dir = f"{homedir}voices/"
 
 def voicerec():          
