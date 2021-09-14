@@ -2,14 +2,14 @@ from playsound import playsound
 import speech_recognition as sr
 import os ,random , getpass
 ############################# CONFIG ##############################################
-DEBUG = True
+DEBUG = False
 MODE = "CLI" # or VOICE
 ############################# PATHS ##############################################
 user_name = getpass.getuser()
 if DEBUG:
     base_dir = os.getcwd()
 else:
-    base_dir = "/home/{user_name}/.config/Max/"
+    base_dir = f"/home/{user_name}/.config/Max/"
 voice_dir = f"{base_dir}voices/"
 ############################# Functions ##############################################
 def voicerec():          

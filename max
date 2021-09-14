@@ -1,23 +1,29 @@
-#!/usr/bin/python
-import sys
-from tkinter import *
+#!/usr/bin/env python3
+import os, webbrowser
 from assets.resources import *
-# from assets.tasks import *
 from datetime import datetime
-#########################################################################################
-window = Tk()
-#########################################################################################
+from time import sleep
+from neuralintents import GenericAssistant
+import pyautogui as pyauto
+os.chdir(base_dir)
+bot = GenericAssistant('intents.json')
+bot.train_model()
+bot.save_model()
+
 def main():
     # greet()
-    try:
-        voicerec()
-    except sr.UnknownValueError:
-        main()
+    if MODE == "VOICE":
+        try:
+            voicerec()
+        except sr.UnknownValueError:
+            main()
+    elif MODE == "CLI":
+        voicerec.text = input("Enter: ")
     if "open" in voicerec.text:
         voiceok()
-        wfilter("open")
+        file_name = wfilter("open") 
         os.chdir(f"{homedir}/apps/")
-        os.system(f"gtk-launch {wfilter.edited_word}.desktop")
+        os.system(f"gtk-launch {file_name}.desktop")
     elif ("install" and "package") in voicerec.text:
         voiceok()
         packageinstall()
@@ -48,7 +54,7 @@ def main():
         voiceok()
         os.system("bash config.sh")
 
-    elif ("google") or ("google" and "search") in voicerec.text:
+    elif "google" in voicerec.text or "google" and "search" in voicerec.text:
         playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
         voicerec()
         content = voicerec.text
@@ -56,33 +62,39 @@ def main():
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
 
-    elif ("youtube") or ("youtube" and "search") in voicerec.text:
+    elif "youtube" in voicerec.text or "youtube" and "search" in voicerec.text:
         playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
         voicerec()
         content = voicerec.text
         url_g = f"https://www.youtube.com/results?search_query={content}"
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
-    elif ("shutdown" or "poweroff") or ("shut" and "down") or ("power" and "off") in voicerec.text or "poweroff" in voicerec.text:
+    elif "shutdown" in voicerec.text or "poweroff" in voicerec.text or "shut" and "down" in voicerec.text or "power" and "off" in voicerec.text:
         playsound(f"{voice_dir}/poweroff.mp3")
         sleep(10)
         os.system("poweroff")
 
-def exit():
-    window.quit()
-def debugmode():
-    os.system(f"konsole -e python {homedir}max_gui.py")
-    
-#########################################################################################
-photo_mic = PhotoImage(file = f"{homedir}assets/res/mic.png")
-photoimage_mic = photo_mic.subsample(3, 3)
-Button(window,text = 'Listen', bg="black", fg="green" , command=main,  image = photoimage_mic,compound = LEFT).place(x=50, y=4)
-#####################################################
-photo = PhotoImage(file = f"{homedir}assets/res/bug.png")
-photoimage = photo.subsample(3, 3)
-Button(window,text = 'DebugMode', bg="black", fg="green" , command=debugmode ,  image = photoimage,compound = LEFT).place(x=1, y=166)
-########################################################
-btn = Button(window, text="Exit", bg="black", fg="red", command=exit)
-btn.place(x=150, y=170)
-#########################################################################################
-window.mainloop()
+    elif "server" and "start" in voicerec.text:
+        playsound(f"{voice_dir}/server.mp3")
+        os.system(f"python {base_dir}/assets/server.py")
+
+    elif "minimise" in voicerec.text or "minimize" in voicerec.text:
+        keyword = voicerec.text[-1]
+        print(keyword)
+        keyword = int(keyword)
+        pyauto.hotkey("winleft" , "d")
+        sleep(keyword)
+        pyauto.hotkey("winleft" , "d")
+    else:
+        response = bot.request(voicerec.text)
+        print(response)
+        audio = "voices/" + response
+        playsound(audio)
+        if response == "dontbesad.mp3":
+            webbrowser.open_new_tab("https://www.producthunt.com") # les go hunting
+        elif response == "dontbesad2.mp3" :
+            webbrowser.open_new_tab("https://www.youtube.com/results?search_query=funny+memes") #the best i got lol
+        else:
+            pass
+while True:
+    main()

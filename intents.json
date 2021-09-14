@@ -1,7 +1,7 @@
 {"intents": [
   {"tag":"greetings",
     "patterns": ["hi", "hello", "hey" , "yo"] , 
-    "responses": ["hellosir.mp3" , "howcanihelpu.mp3" , "whatcaniassistuwith.mp3" , "howwasurday.mp3"]
+    "responses": ["hellosir.mp3" , "howcanihelpu.mp3" , "whatcaniassistuwith.mp3" , "howwasyourday.mp3"]
   },  
   {"tag":"work",
     "patterns": ["what u doing", "sup", "what are you doing" , "watcha doing"] , 
