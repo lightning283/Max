@@ -1,15 +1,17 @@
 from playsound import playsound
 import speech_recognition as sr
 import os ,random , getpass
-user_name = getpass.getuser()
+############################# CONFIG ##############################################
 DEBUG = True
+MODE = "CLI" # or VOICE
+############################# PATHS ##############################################
+user_name = getpass.getuser()
 if DEBUG:
     base_dir = os.getcwd()
 else:
     base_dir = "/home/{user_name}/.config/Max/"
 voice_dir = f"{base_dir}voices/"
-MODE = "CLI" # or VOICE
-
+############################# Functions ##############################################
 def voicerec():          
     voice= sr.Recognizer()
     with sr.Microphone() as source:
@@ -18,15 +20,17 @@ def voicerec():
         voicerec.text = voice.recognize_google(audio)
         voicerec.text = voicerec.text.lower()
         print(f"--> {voicerec.text}")
+
 def missedit():
     playsound(f"{voice_dir}/missedit.mp3") 
-    
+
 def tryagain():
     try:
         voicerec()
     except sr.UnknownValueError:
         missedit()
         voicerec()
+
 def packageinstall():
     if os.path.isfile("/usr/bin/yay"):
         edited_install = voicerec.text.lower().split("install" , 1)[1]
