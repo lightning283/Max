@@ -7,7 +7,8 @@ if DEBUG:
     base_dir = os.getcwd()
 else:
     base_dir = "/home/{user_name}/.config/Max/"
-voice_dir = f"{homedir}voices/"
+voice_dir = f"{base_dir}voices/"
+MODE = "CLI" # or VOICE
 
 def voicerec():          
     voice= sr.Recognizer()

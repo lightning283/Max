@@ -4,20 +4,24 @@ from assets.resources import *
 from datetime import datetime
 from time import sleep
 from neuralintents import GenericAssistant
+import pyautogui as pyauto
 
 bot = GenericAssistant('intents.json')
 bot.train_model()
 bot.save_model()
 
 def main():
-    # greet()
-    try:
-        voicerec()
-    except sr.UnknownValueError:
-        main()
+    greet()
+    if MODE == "VOICE":
+        try:
+            voicerec()
+        except sr.UnknownValueError:
+            main()
+    elif MODE == "CLI":
+        voicerec.text = input("Enter: ")
     if "open" in voicerec.text:
         voiceok()
-        file_name = wfilter("open")
+        file_name = wfilter("open") 
         os.chdir(f"{homedir}/apps/")
         os.system(f"gtk-launch {file_name}.desktop")
     elif ("install" and "package") in voicerec.text:
@@ -65,14 +69,20 @@ def main():
         url_g = f"https://www.youtube.com/results?search_query={content}"
         webbrowser.open_new_tab(url_g)
         playsound(f"{voice_dir}/results.mp3")
-
     elif "shutdown" in voicerec.text or "poweroff" in voicerec.text or "shut" and "down" in voicerec.text or "power" and "off" in voicerec.text:
         playsound(f"{voice_dir}/poweroff.mp3")
         sleep(10)
         os.system("poweroff")
-    elif "server" and "start":
+    elif "server" and "start" in voicerec.text:
         playsound(f"{voice_dir}/server.mp3")
         os.system(f"python {base_dir}/assets/server.py")
+    elif "minimise" in voicerec.text:
+        keyword = voicerec.text[-1]
+        print(keyword)
+        keyword = int(keyword)
+        pyauto.hotkey("winleft" , "d")
+        sleep(keyword)
+        pyauto.hotkey("winleft" , "d")
     else:
         response = bot.request(voicerec.text)
         print(response)

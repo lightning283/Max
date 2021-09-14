@@ -2,3 +2,5 @@ gtts
 playsound
 speechrecognition
 tk
+neuralintents
+pyaudio
