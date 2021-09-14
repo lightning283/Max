@@ -11,7 +11,7 @@ bot.train_model()
 bot.save_model()
 
 def main():
-    greet()
+    # greet()
     if MODE == "VOICE":
         try:
             voicerec()
@@ -73,10 +73,12 @@ def main():
         playsound(f"{voice_dir}/poweroff.mp3")
         sleep(10)
         os.system("poweroff")
+
     elif "server" and "start" in voicerec.text:
         playsound(f"{voice_dir}/server.mp3")
         os.system(f"python {base_dir}/assets/server.py")
-    elif "minimise" in voicerec.text:
+        
+    elif "minimise" in voicerec.text or "minimize" in voicerec.text:
         keyword = voicerec.text[-1]
         print(keyword)
         keyword = int(keyword)
@@ -92,5 +94,7 @@ def main():
             webbrowser.open_new_tab("https://www.producthunt.com") # les go hunting
         elif response == "dontbesad2.mp3" :
             webbrowser.open_new_tab("https://www.youtube.com/results?search_query=funny+memes") #the best i got lol
+        else:
+            pass
 while True:
     main()
