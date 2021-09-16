@@ -3,7 +3,6 @@ import speech_recognition as sr
 import os ,random , getpass
 ############################# CONFIG ##############################################
 DEBUG = False
-MODE = "CLI" # or VOICE
 ############################# PATHS ##############################################
 user_name = getpass.getuser()
 if DEBUG:

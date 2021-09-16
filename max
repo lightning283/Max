@@ -5,10 +5,25 @@ from datetime import datetime
 from time import sleep
 from neuralintents import GenericAssistant
 import pyautogui as pyauto
+from sys import argv
+try:
+    if argv[1] == "--cli":
+        MODE = "CLI"
+        print("USING CLI CONFIG")
+    elif argv[1] == "--voice":
+        MODE = "VOICE"
+        print("USING VOICE CONFIG")
+    else:
+        print("USING DEAFULT CONFIG")
+except IndexError:
+    MODE = "VOICE"
+print("Changing Dir..")
 os.chdir(base_dir)
+print("Training Model , Please Allow A Few Seconds")
 bot = GenericAssistant('intents.json')
 bot.train_model()
 bot.save_model()
+
 
 def main():
     # greet()
@@ -60,7 +75,6 @@ def main():
         content = voicerec.text
         url_g = f"https://www.google.com/search?q={content}"
         webbrowser.open_new_tab(url_g)
-        playsound(f"{voice_dir}/results.mp3")
 
     elif "youtube" in voicerec.text or "youtube" and "search" in voicerec.text:
         playsound(f"{voice_dir}/what_would_you_like_to_search.mp3")
@@ -77,6 +91,11 @@ def main():
     elif "server" and "start" in voicerec.text:
         playsound(f"{voice_dir}/server.mp3")
         os.system(f"python {base_dir}/assets/server.py")
+    elif "kill" in voicerec.text:
+        # playsound(f"{voice_dir}/kill.mp3")
+        os.system("""
+            konsole -e python -c program_name = input("Enter Program Name")
+        """)
 
     elif "minimise" in voicerec.text or "minimize" in voicerec.text:
         keyword = voicerec.text[-1]
